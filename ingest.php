@@ -1,31 +1,24 @@
 <?php
 require "/predis/autoload.php";
 Predis\Autoloader::register();
-// since we connect to default setting localhost
-// and 6379 port there is no need for extra
-// configuration. If not then you can specify the
-// scheme, host and port to connect as an array
-// to the constructor.
+
 class postbackObject {
     public $method = "";
     public $url  = "";
     public $key = "";
     public $value = "";
 }
-$postback = array(endpoint=> array(method=>"GET", url=>"http://sample_domain_endpoint.com/data?key={key}&value={value}&foo={bar}"), data=> array(key=>"Azureus", value=>"Dendrobates"));
+
 //v = file_get_contents('php://input');
 //$inputJSON = json_decode($entityBody);
+
+$postback = array(endpoint=> array(method=>"GET", url=>"http://sample_domain_endpoint.com/data?key={key}&value={value}&foo={bar}"), data=> array(key=>"Azureus", value=>"Dendrobates"));
 $method = $postback["endpoint"]["method"];
 $url = $postback["endpoint"]["url"];
 $data = $postback["data"];
 
-
-echo "</br>";
 try {
     $redis = new Predis\Client();
-    echo "Successfully connected to Redis";
-    echo "</br>";
-    echo "</br>";
     //for ($x = 0; $x <= 10; $x++) {
     $newObject = new postbackObject();
     $newObject->method = $method;
@@ -45,5 +38,4 @@ catch (Exception $e) {
     echo $e->getMessage();
     echo "</br>";
 }
-
 ?>
